@@ -1,0 +1,135 @@
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fas fa-award"></i> Programa Acreditado de Alta Calidad</div>
+    <h1 class="hero-title">Doctorado en<br/><span class="hero-highlight">Ciencias de la Salud</span></h1>
+    <p class="hero-subtitle">Universidad Surcolombiana — Formando investigadores de excelencia para transformar la salud de Colombia y Latinoamérica.</p>
+    <div class="hero-actions">
+      <a routerLink="/plan-de-estudios" class="btn-primary-usco"><i class="fas fa-book-reader"></i> Plan de Estudios</a>
+      <a routerLink="/historia" class="btn-outline-hero"><i class="fas fa-info-circle"></i> Conocer Más</a>
+    </div>
+  </div>
+</section>
+
+@if (slides().length) {
+<section class="section carousel-section">
+  <div class="container">
+    <div class="section-title"><h2>Noticias y Novedades</h2><p>Últimas noticias del programa</p></div>
+    <p-carousel [value]="slides()" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="5000" [responsiveOptions]="responsiveOptions" styleClass="carousel-usco">
+      <ng-template #item let-slide>
+        <div class="carousel-slide">
+          <img [src]="slide.urlImg" [alt]="slide.titulo" class="carousel-img"/>
+          <div class="carousel-caption">
+            <span class="carousel-date"><i class="far fa-calendar-alt"></i> {{slide.fecha}}</span>
+            <h3>{{slide.titulo}}</h3>
+            <p>{{slide.info}}</p>
+            @if (slide.urlInfo) {<a [href]="slide.urlInfo" target="_blank" class="btn-primary-usco btn-sm">Leer más <i class="fas fa-arrow-right"></i></a>}
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+</section>
+}
+
+<section class="counters-section">
+  <div class="container">
+    <div class="counters-grid">
+      @for (c of counters; track c.label) {
+      <div class="counter-item">
+        <div class="counter-icon"><i [class]="c.icon"></i></div>
+        <div class="counter-value">{{c.value}}{{c.suffix}}</div>
+        <div class="counter-label">{{c.label}}</div>
+      </div>
+      }
+    </div>
+  </div>
+</section>
+
+@if (denominacion(); as d) {
+<section class="section about-section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-content">
+        <div class="section-title" style="text-align:left"><h2>Sobre el Programa</h2></div>
+        @if(d.mision){<div class="about-card"><div class="about-card-icon"><i class="fas fa-bullseye"></i></div><div><h4>Misión</h4><p>{{d.mision}}</p></div></div>}
+        @if(d.vision){<div class="about-card"><div class="about-card-icon"><i class="fas fa-eye"></i></div><div><h4>Visión</h4><p>{{d.vision}}</p></div></div>}
+        @if(d.objetivo){<div class="about-card"><div class="about-card-icon"><i class="fas fa-flag"></i></div><div><h4>Objetivo</h4><p>{{d.objetivo}}</p></div></div>}
+      </div>
+      <div class="about-info-panel">
+        <div class="info-panel-card">
+          <h3><i class="fas fa-clipboard-list"></i> Información</h3>
+          <ul class="info-list">
+            @if(d.titulo){<li><span class="info-label">Título</span><span class="info-value">{{d.titulo}}</span></li>}
+            @if(d.creditos){<li><span class="info-label">Créditos</span><span class="info-value">{{d.creditos}}</span></li>}
+            @if(d.duracion){<li><span class="info-label">Duración</span><span class="info-value">{{d.duracion}}</span></li>}
+            @if(d.costo){<li><span class="info-label">Costo</span><span class="info-value">{{d.costo}}</span></li>}
+            @if(d.snies){<li><span class="info-label">SNIES</span><span class="info-value">{{d.snies}}</span></li>}
+          </ul>
+          <a routerLink="/plan-de-estudios" class="btn-primary-usco" style="margin-top:1.5rem;width:100%;justify-content:center"><i class="fas fa-arrow-right"></i> Ver Plan</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+}
+
+@if (docentes().length) {
+<section class="section docentes-section bg-gradient-subtle">
+  <div class="container">
+    <div class="section-title"><h2>Nuestros Profesores</h2><p>Equipo docente de alta calificación</p></div>
+    <p-carousel [value]="docentes()" [numVisible]="4" [numScroll]="1" [circular]="true" [autoplayInterval]="4000" [responsiveOptions]="docenteResponsive" styleClass="docentes-carousel">
+      <ng-template #item let-doc>
+        <div class="docente-card">
+          <div class="docente-avatar">
+            @if(doc.foto){<img [src]="doc.foto" [alt]="doc.nombre"/>}@else{<div class="docente-avatar-placeholder"><i class="fas fa-user"></i></div>}
+          </div>
+          <h4 class="docente-name">{{doc.nombre}}</h4>
+          <p class="docente-desc">{{doc.sintesis.slice(0,100)}}</p>
+          <div class="docente-links">
+            @if(doc.correo){<a [href]="'mailto:'+doc.correo" title="Correo"><i class="fas fa-envelope"></i></a>}
+            @if(doc.cvlac){<a [href]="doc.cvlac" target="_blank" title="CvLAC"><i class="fas fa-file-alt"></i></a>}
+            @if(doc.orcid){<a [href]="doc.orcid" target="_blank" title="ORCID"><i class="fab fa-orcid"></i></a>}
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+    <div style="text-align:center;margin-top:2rem"><a routerLink="/docentes" class="btn-outline-usco"><i class="fas fa-users"></i> Ver todos</a></div>
+  </div>
+</section>
+}
+
+@if (eventos().length) {
+<section class="section events-section">
+  <div class="container">
+    <div class="section-title"><h2>Actividades Recientes</h2></div>
+    <div class="events-grid">
+      @for (ev of eventos(); track ev.key) {
+      <div class="event-card card-usco">
+        @if(ev.img){<div class="event-img-wrapper"><img [src]="ev.img" [alt]="ev.titulo" class="event-img"/></div>}
+        <div class="event-body">
+          <p-tag [value]="ev.fechaEvento" icon="far fa-calendar-alt" severity="secondary"/>
+          <h4 class="event-title">{{ev.titulo}}</h4>
+          <p class="event-desc">{{ev.resenia.slice(0,120)}}</p>
+          @if(ev.url){<a [href]="ev.url" target="_blank" class="event-link">Leer más <i class="fas fa-arrow-right"></i></a>}
+        </div>
+      </div>
+      }
+    </div>
+    <div style="text-align:center;margin-top:2.5rem"><a routerLink="/agenda-programa" class="btn-outline-usco"><i class="far fa-newspaper"></i> Ver todas</a></div>
+  </div>
+</section>
+}
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>¿Listo para transformar la salud?</h2>
+      <p>Únete al programa de Doctorado en Ciencias de la Salud.</p>
+      <div class="cta-actions">
+        <a href="mailto:doctoradoencienciasdelasalud@usco.edu.co" class="btn-primary-usco btn-cta"><i class="fas fa-envelope"></i> Contáctanos</a>
+        <a routerLink="/plan-de-estudios" class="btn-outline-hero"><i class="fas fa-info-circle"></i> Más Info</a>
+      </div>
+    </div>
+  </div>
+</section>

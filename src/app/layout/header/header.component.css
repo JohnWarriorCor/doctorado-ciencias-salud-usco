@@ -1,0 +1,484 @@
+/* ===== Top Bar ===== */
+.topbar {
+  background: linear-gradient(135deg, var(--usco-gris-dark), var(--usco-gris));
+  color: white;
+  padding: 0.5rem 0;
+  font-size: 0.82rem;
+}
+
+.topbar-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.topbar-date {
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.topbar-social {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.topbar-social a {
+  color: white;
+  opacity: 0.8;
+  transition: all var(--transition-fast);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+}
+
+.topbar-social a:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.1);
+}
+
+.topbar-email {
+  color: white;
+  opacity: 0.85;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.topbar-email:hover {
+  opacity: 1;
+}
+
+/* ===== Logo Bar ===== */
+.logobar {
+  background: var(--surface-white);
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--surface-200);
+}
+
+.logobar-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logobar-container > * {
+  flex: 1;
+}
+
+.logo-img {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-name {
+  height: 55px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-shield {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo-shield-img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-text {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.logo-text img {
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-link {
+  display: flex;
+  justify-content: flex-start;
+  transition: transform var(--transition-fast);
+}
+
+.logo-link:hover {
+  transform: scale(1.03);
+}
+
+/* ===== Main Navigation ===== */
+.main-nav {
+  background: linear-gradient(135deg, var(--usco-vinotinto-dark), var(--usco-vinotinto));
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+:host ::ng-deep .menubar-usco {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1rem;
+  justify-content: center !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-root-list > .p-menubar-item > .p-menubar-item-content {
+  border-radius: var(--radius-sm) !important;
+  transition: all var(--transition-fast) !important;
+  padding: 0.45rem 0.55rem !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-root-list {
+  flex-wrap: nowrap !important;
+  flex-grow: 0 !important;
+  justify-content: center !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-item-label {
+  color: white !important;
+  font-family: var(--font-primary) !important;
+  font-size: 0.82rem !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-item-icon {
+  color: rgba(255, 255, 255, 0.8) !important;
+  margin-right: 0.4rem !important;
+}
+
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item:hover
+  > .p-menubar-item-content {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* ===== Active / Focus / Highlight States (Root) ===== */
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item.p-menubar-item-active
+  > .p-menubar-item-content,
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item.p-focus
+  > .p-menubar-item-content,
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item.p-highlight
+  > .p-menubar-item-content,
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item:focus
+  > .p-menubar-item-content,
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item
+  > .p-menubar-item-content:focus {
+  background: rgba(255, 255, 255, 0.2) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item.p-menubar-item-active
+  .p-menubar-item-label,
+:host ::ng-deep .menubar-usco .p-menubar-root-list > .p-menubar-item.p-focus .p-menubar-item-label,
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item.p-highlight
+  .p-menubar-item-label {
+  color: #fff !important;
+}
+
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item.p-menubar-item-active
+  .p-menubar-item-icon,
+:host ::ng-deep .menubar-usco .p-menubar-root-list > .p-menubar-item.p-focus .p-menubar-item-icon,
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item.p-highlight
+  .p-menubar-item-icon,
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item.p-menubar-item-active
+  .p-menubar-submenu-icon,
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item.p-focus
+  .p-menubar-submenu-icon,
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-root-list
+  > .p-menubar-item.p-highlight
+  .p-menubar-submenu-icon {
+  color: #fff !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-submenu-icon {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ===== Submenu Dropdown Panel ===== */
+:host ::ng-deep .menubar-usco .p-menubar-submenu {
+  background: var(--usco-vinotinto-dark, #5c0e12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: var(--radius-md, 8px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+  padding: 0.35rem 0 !important;
+  min-width: 200px !important;
+  overflow: hidden;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item-content {
+  border-radius: 0 !important;
+  transition: all 0.2s ease !important;
+  margin: 0 !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item-label {
+  color: rgba(255, 255, 255, 0.92) !important;
+  font-size: 0.85rem !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item-icon {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item:hover > .p-menubar-item-content {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item:hover .p-menubar-item-label {
+  color: #fff !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item:hover .p-menubar-item-icon {
+  color: #fff !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-separator {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ===== Active / Focus / Highlight States (Submenu) ===== */
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-submenu
+  .p-menubar-item.p-menubar-item-active
+  > .p-menubar-item-content,
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item.p-focus > .p-menubar-item-content,
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-submenu
+  .p-menubar-item.p-highlight
+  > .p-menubar-item-content,
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item:focus > .p-menubar-item-content,
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item > .p-menubar-item-content:focus {
+  background: rgba(255, 255, 255, 0.18) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-submenu
+  .p-menubar-item.p-menubar-item-active
+  .p-menubar-item-label,
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item.p-focus .p-menubar-item-label,
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item.p-highlight .p-menubar-item-label {
+  color: #fff !important;
+}
+
+:host
+  ::ng-deep
+  .menubar-usco
+  .p-menubar-submenu
+  .p-menubar-item.p-menubar-item-active
+  .p-menubar-item-icon,
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item.p-focus .p-menubar-item-icon,
+:host ::ng-deep .menubar-usco .p-menubar-submenu .p-menubar-item.p-highlight .p-menubar-item-icon {
+  color: #fff !important;
+}
+
+:host ::ng-deep .menubar-usco .p-menubar-button {
+  color: white !important;
+}
+
+.nav-auth-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nav-auth-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ===== Login Dialog ===== */
+:host ::ng-deep .login-dialog .p-dialog-header {
+  background: linear-gradient(135deg, var(--usco-vinotinto), var(--usco-vinotinto-dark)) !important;
+  color: white !important;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+}
+
+:host ::ng-deep .login-dialog .p-dialog-header-close {
+  color: white !important;
+}
+
+.login-form {
+  padding: 1rem 0;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: var(--surface-800);
+}
+
+.w-full {
+  width: 100%;
+}
+
+.login-message {
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  background: #fff3f3;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+  margin-bottom: 1rem;
+}
+
+.login-message.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-color: #c8e6c9;
+}
+
+.login-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+:host ::ng-deep .btn-login {
+  background: linear-gradient(135deg, var(--usco-vinotinto), var(--usco-vinotinto-dark)) !important;
+  border: none !important;
+}
+
+.recovery-link {
+  color: var(--usco-vinotinto);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.recovery-link:hover {
+  color: var(--usco-vinotinto-dark);
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .topbar-container {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .topbar-email {
+    display: none;
+  }
+
+  .logobar-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .logobar-container > * {
+    justify-content: center !important;
+  }
+
+  .logo-img {
+    height: 50px;
+  }
+  .logo-text img {
+    height: 35px;
+  }
+  .logo-shield-img {
+    height: 40px;
+  }
+}

@@ -1,0 +1,125 @@
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="topbar-container">
+    <span class="topbar-date">{{ today | date: 'fullDate' | titlecase }}</span>
+    <div class="topbar-right">
+      <div class="topbar-social">
+        <a
+          href="https://www.facebook.com/DoctoradoEnCienciasDeLaSalud/"
+          target="_blank"
+          aria-label="Facebook"
+        >
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://twitter.com/FACSALUD_USCO" target="_blank" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://www.instagram.com/fac_saludusco/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+      <a href="mailto:doctoradoencienciasdelasalud@usco.edu.co" class="topbar-email">
+        <i class="far fa-envelope"></i> doctoradoencienciasdelasalud&#64;usco.edu.co
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Logo Bar -->
+<div class="logobar">
+  <div class="logobar-container">
+    <a routerLink="/inicio" class="logo-link">
+      <img
+        src="https://www.usco.edu.co/imagen-institucional/logo/universidad-surcolombiana.png"
+        alt="Facultad de Ciencias de la Salud - USCO"
+        class="logo-img"
+      />
+    </a>
+    <div class="logo-text">
+      <img src="images/header-nombre-doctorado.png" alt="Doctorado en Ciencias de la Salud" />
+    </div>
+    <div class="logo-shield">
+      <img
+        src="images/header-escudo-colombia.png"
+        alt="Escudo de Colombia"
+        class="logo-shield-img"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav class="main-nav">
+  <p-menubar [model]="menuItems" styleClass="menubar-usco">
+    <ng-template #end>
+      @if (authService.user$ | async; as user) {
+        <button class="nav-auth-btn" (click)="logout()">
+          <i class="fas fa-door-open"></i> Salir
+        </button>
+      }
+    </ng-template>
+  </p-menubar>
+</nav>
+
+<!-- Login Dialog -->
+<p-dialog
+  header="Administrar"
+  [(visible)]="showLoginDialog"
+  [modal]="true"
+  [style]="{ width: '420px' }"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="login-dialog"
+>
+  <div class="login-form">
+    <div class="form-group">
+      <label for="login-email">Correo electrónico</label>
+      <input
+        pInputText
+        id="login-email"
+        [(ngModel)]="email"
+        type="email"
+        placeholder="correo@ejemplo.com"
+        class="w-full"
+      />
+    </div>
+
+    @if (!showRecovery) {
+      <div class="form-group">
+        <label for="login-pass">Contraseña</label>
+        <p-password
+          id="login-pass"
+          [(ngModel)]="password"
+          [feedback]="false"
+          [toggleMask]="true"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+        />
+      </div>
+    }
+
+    @if (loginError) {
+      <p class="login-message" [class.success]="loginError.includes('enviado')">{{ loginError }}</p>
+    }
+
+    <div class="login-actions">
+      @if (!showRecovery) {
+        <p-button
+          label="Acceder"
+          icon="fas fa-sign-in-alt"
+          (onClick)="login()"
+          styleClass="w-full btn-login"
+        />
+        <a class="recovery-link" (click)="showRecovery = true">¿Olvidó su contraseña?</a>
+      } @else {
+        <p-button
+          label="Enviar recuperación"
+          icon="far fa-paper-plane"
+          (onClick)="recoverPassword()"
+          styleClass="w-full btn-login"
+        />
+        <a class="recovery-link" (click)="showRecovery = false">Volver al inicio de sesión</a>
+      }
+    </div>
+  </div>
+</p-dialog>

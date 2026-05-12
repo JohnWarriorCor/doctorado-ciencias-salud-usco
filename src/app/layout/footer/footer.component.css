@@ -1,0 +1,221 @@
+.site-footer {
+  margin-top: 4rem;
+}
+
+/* ===== Main Footer ===== */
+.footer-main {
+  background: var(--surface-50);
+  border-top: 3px solid var(--usco-vinotinto);
+  padding: 3.5rem 0 2rem;
+}
+
+.footer-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+}
+
+.footer-heading {
+  font-family: var(--font-primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--usco-vinotinto);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--usco-oro);
+  display: inline-block;
+}
+
+/* Contact List */
+.footer-list {
+  list-style: none;
+}
+
+.footer-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.82rem;
+  color: var(--surface-600);
+  line-height: 1.5;
+}
+
+.footer-list li i {
+  color: var(--usco-vinotinto);
+  margin-top: 3px;
+  flex-shrink: 0;
+  width: 14px;
+}
+
+.footer-list li a {
+  color: var(--surface-600);
+  transition: color var(--transition-fast);
+}
+
+.footer-list li a:hover {
+  color: var(--usco-vinotinto);
+}
+
+/* Links */
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 0.6rem;
+}
+
+.footer-links li a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.84rem;
+  color: var(--surface-600);
+  transition: all var(--transition-fast);
+  padding: 0.25rem 0;
+}
+
+.footer-links li a:hover {
+  color: var(--usco-vinotinto);
+  transform: translateX(4px);
+}
+
+.footer-links li a i {
+  width: 16px;
+  color: var(--usco-vinotinto-light);
+  font-size: 0.78rem;
+}
+
+/* Brand Column */
+.footer-brand {
+  text-align: center;
+}
+
+.footer-uni-logo {
+  display: block;
+  max-width: 180px;
+  margin: 0 auto 1rem;
+  opacity: 0.85;
+}
+
+.footer-disclaimer {
+  font-size: 0.75rem;
+  color: var(--surface-600);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.footer-icontec {
+  display: block;
+  max-width: 120px;
+  margin: 0 auto;
+  opacity: 0.7;
+}
+
+/* ===== Bottom Bar ===== */
+.footer-bottom {
+  background: var(--usco-gris-dark);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 1rem 0;
+}
+
+.footer-bottom .footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-bottom p {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.footer-auth-link {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.footer-auth-link:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== Login ===== */
+.login-form { padding: 0.5rem 0; }
+.form-group { margin-bottom: 1.2rem; }
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
+  color: var(--surface-800);
+}
+.w-full { width: 100%; }
+.login-msg {
+  font-size: 0.84rem;
+  color: #c62828;
+  background: #fff3f3;
+  padding: 0.6rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
+}
+.login-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+:host ::ng-deep .btn-login {
+  background: linear-gradient(135deg, var(--usco-vinotinto), var(--usco-vinotinto-dark)) !important;
+  border: none !important;
+}
+.recovery-link {
+  color: var(--usco-vinotinto);
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+.recovery-link:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-list li,
+  .footer-links li a {
+    justify-content: center;
+  }
+
+  .footer-bottom .footer-container {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
