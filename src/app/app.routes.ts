@@ -169,5 +169,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/admin/admin-eventos/admin-eventos.component').then((m) => m.AdminEventosComponent),
   },
+  {
+    path: 'admin/investigacion',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/admin/admin-investigacion/admin-investigacion.component').then((m) => m.AdminInvestigacionComponent),
+  },
   { path: '**', redirectTo: 'inicio' },
 ];

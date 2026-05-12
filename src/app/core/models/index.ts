@@ -89,7 +89,12 @@ export interface Evento {
 }
 
 export interface GrupoInvestigacion {
-  fieldArray: any[];
+  codigoColciencias: string;
+  nombreGrupo: string;
+  liderGrupo: string;
+  clasificacion: string;
+  grupLAC: string;
+  fieldArray?: any[];
   key?: string;
 }
 
