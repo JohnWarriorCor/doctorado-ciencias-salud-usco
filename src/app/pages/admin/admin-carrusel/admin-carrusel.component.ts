@@ -55,7 +55,22 @@ import { Carrusel } from '../../../core/models';
           <div class="form-group"><label>Fecha</label><input pInputText [(ngModel)]="form.fecha" class="w-full" placeholder="DD/MM/YYYY"/></div>
           <div class="form-group"><label>URL Imagen</label><input pInputText [(ngModel)]="form.urlImg" class="w-full"/></div>
           <div class="form-group"><label>URL Información</label><input pInputText [(ngModel)]="form.urlInfo" class="w-full"/></div>
-          <div class="form-group"><label>Imagen (archivo)</label><input type="file" accept="image/*" (change)="onFileSelect($event)" class="w-full"/></div>
+          <div class="form-group">
+            <label>Imagen (archivo)</label>
+            <div class="file-drop-zone" (click)="fileInput.click()" [class.has-file]="!!previewUrl">
+              <input #fileInput type="file" accept="image/*" (change)="onFileSelect($event)" style="display:none"/>
+              @if(previewUrl){
+                <img [src]="previewUrl" class="img-prev-rect" alt="Vista previa"/>
+                <span class="file-drop-hint" style="margin-top:.4rem">{{selectedFile?.name || 'Imagen actual · clic para cambiar'}}</span>
+              } @else {
+                <div class="file-drop-content">
+                  <i class="fas fa-image"></i>
+                  <span class="file-drop-text">Haz clic para seleccionar imagen</span>
+                  <span class="file-drop-hint">PNG, JPG, WEBP · Recomendado 1200×600 px</span>
+                </div>
+              }
+            </div>
+          </div>
           <div class="form-group">
             <label>Estado</label>
             <p-select [(ngModel)]="form.estado" [options]="estadoOptions" optionLabel="label" optionValue="value" class="w-full"/>
@@ -81,6 +96,14 @@ import { Carrusel } from '../../../core/models';
     .form-group{display:flex;flex-direction:column;gap:.35rem}
     .form-group label{font-size:.85rem;font-weight:600;color:var(--surface-600)}
     .w-full{width:100%}
+    .file-drop-zone{border:2px dashed var(--surface-300);border-radius:12px;padding:1.25rem;cursor:pointer;transition:all .25s;background:var(--surface-50);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100px}
+    .file-drop-zone:hover,.file-drop-zone.has-file{border-color:var(--usco-vinotinto);background:#fef2f3}
+    .file-drop-zone.has-file{border-style:solid}
+    .file-drop-content{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+    .file-drop-content i{font-size:2rem;color:var(--usco-vinotinto);opacity:.65}
+    .file-drop-text{font-size:.87rem;font-weight:600;color:var(--surface-700)}
+    .file-drop-hint{font-size:.75rem;color:var(--surface-400)}
+    .img-prev-rect{width:100%;max-height:160px;object-fit:cover;border-radius:8px}
   `,
 })
 export class AdminCarruselComponent implements OnInit {
@@ -96,6 +119,7 @@ export class AdminCarruselComponent implements OnInit {
   saving = signal(false);
   form: Carrusel = this.emptyForm();
   selectedFile: File | null = null;
+  previewUrl: string | null = null;
   estadoOptions = [{ label: 'Activo', value: 1 }, { label: 'Inactivo', value: 0 }];
 
   ngOnInit() {
@@ -106,13 +130,18 @@ export class AdminCarruselComponent implements OnInit {
     return { titulo: '', urlImg: '', nameImg: '', urlInfo: '', fecha: '', info: '', estado: 1 };
   }
 
-  openNew() { this.form = this.emptyForm(); this.isEdit = false; this.selectedFile = null; this.dialogVisible = true; }
+  openNew() { this.form = this.emptyForm(); this.isEdit = false; this.selectedFile = null; this.previewUrl = null; this.dialogVisible = true; }
 
-  editItem(item: any) { this.form = { ...item }; this.isEdit = true; this.selectedFile = null; this.dialogVisible = true; }
+  editItem(item: any) { this.form = { ...item }; this.isEdit = true; this.selectedFile = null; this.previewUrl = item.urlImg || null; this.dialogVisible = true; }
 
   onFileSelect(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (input.files?.length) this.selectedFile = input.files[0];
+    if (input.files?.length) {
+      this.selectedFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => this.previewUrl = reader.result as string;
+      reader.readAsDataURL(this.selectedFile);
+    }
   }
 
   async save() {

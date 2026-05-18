@@ -38,20 +38,35 @@ import { Evento } from '../../../core/models';
           <div class="form-row"><div class="form-group"><label>Fecha Evento</label><input pInputText [(ngModel)]="form.fechaEvento" class="w-full"/></div><div class="form-group"><label>Fecha Publicación</label><input pInputText [(ngModel)]="form.fechaPublicacion" class="w-full"/></div></div>
           <div class="form-group"><label>URL Enlace</label><input pInputText [(ngModel)]="form.url" class="w-full"/></div>
           <div class="form-group"><label>URL Imagen</label><input pInputText [(ngModel)]="form.img" class="w-full"/></div>
-          <div class="form-group"><label>Imagen (archivo)</label><input type="file" accept="image/*" (change)="onFileSelect($event)" class="w-full"/></div>
+          <div class="form-group">
+            <label>Imagen (archivo)</label>
+            <div class="file-drop-zone" (click)="fileInput.click()" [class.has-file]="!!previewUrl">
+              <input #fileInput type="file" accept="image/*" (change)="onFileSelect($event)" style="display:none"/>
+              @if(previewUrl){
+                <img [src]="previewUrl" class="img-prev-rect" alt="Vista previa"/>
+                <span class="file-drop-hint" style="margin-top:.4rem">{{selectedFile?.name || 'Imagen actual · clic para cambiar'}}</span>
+              } @else {
+                <div class="file-drop-content">
+                  <i class="fas fa-image"></i>
+                  <span class="file-drop-text">Haz clic para seleccionar imagen</span>
+                  <span class="file-drop-hint">PNG, JPG, WEBP · Recomendado 1200×600 px</span>
+                </div>
+              }
+            </div>
+          </div>
         </div>
         <ng-template #footer><p-button label="Cancelar" [text]="true" (onClick)="dialogVisible=false"/><p-button label="Guardar" icon="fas fa-save" (onClick)="save()" [loading]="saving()"/></ng-template>
       </p-dialog>
       <p-confirmDialog/><p-toast/>
     </div>
   `,
-  styles: `.admin-hero{background:linear-gradient(135deg,#1e262b,#6a1b9a);padding:3.5rem 2rem 2rem;text-align:center}.admin-hero h1{color:white;font-size:1.6rem;display:flex;align-items:center;justify-content:center;gap:.6rem}.admin-container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}.btn-back{display:inline-flex;align-items:center;gap:.4rem;color:var(--usco-vinotinto);font-weight:600;font-size:.9rem}.form-grid{display:flex;flex-direction:column;gap:1rem}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.form-group{display:flex;flex-direction:column;gap:.35rem}.form-group label{font-size:.85rem;font-weight:600;color:var(--surface-600)}.w-full{width:100%}`,
+  styles: `.admin-hero{background:linear-gradient(135deg,#1e262b,#6a1b9a);padding:3.5rem 2rem 2rem;text-align:center}.admin-hero h1{color:white;font-size:1.6rem;display:flex;align-items:center;justify-content:center;gap:.6rem}.admin-container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}.btn-back{display:inline-flex;align-items:center;gap:.4rem;color:var(--usco-vinotinto);font-weight:600;font-size:.9rem}.form-grid{display:flex;flex-direction:column;gap:1rem}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.form-group{display:flex;flex-direction:column;gap:.35rem}.form-group label{font-size:.85rem;font-weight:600;color:var(--surface-600)}.w-full{width:100%}.file-drop-zone{border:2px dashed var(--surface-300);border-radius:12px;padding:1.25rem;cursor:pointer;transition:all .25s;background:var(--surface-50);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100px}.file-drop-zone:hover,.file-drop-zone.has-file{border-color:var(--usco-vinotinto);background:#fef2f3}.file-drop-zone.has-file{border-style:solid}.file-drop-content{display:flex;flex-direction:column;align-items:center;gap:.35rem}.file-drop-content i{font-size:2rem;color:var(--usco-vinotinto);opacity:.65}.file-drop-text{font-size:.87rem;font-weight:600;color:var(--surface-700)}.file-drop-hint{font-size:.75rem;color:var(--surface-400)}.img-prev-rect{width:100%;max-height:160px;object-fit:cover;border-radius:8px}`,
 })
 export class AdminEventosComponent implements OnInit {
   private fs = inject(FirestoreService); private cloudinary = inject(CloudinaryService); private confirm = inject(ConfirmationService); private msg = inject(MessageService); private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
   items = signal<Evento[]>([]); dialogVisible = false; isEdit = false; saving = signal(false);
-  form: Evento = this.emptyForm(); selectedFile: File | null = null;
+  form: Evento = this.emptyForm(); selectedFile: File | null = null; previewUrl: string | null = null;
   collectionName = 'eventosPrograma'; title = 'Eventos del Programa';
 
   ngOnInit() {
@@ -61,9 +76,9 @@ export class AdminEventosComponent implements OnInit {
   }
 
   emptyForm(): Evento { return { titulo: '', img: '', nameImg: '', resenia: '', parrafo: null, fechaEvento: '', fechaPublicacion: '', url: '' }; }
-  openNew() { this.form = this.emptyForm(); this.isEdit = false; this.selectedFile = null; this.dialogVisible = true; }
-  editItem(item: any) { this.form = { ...item }; this.isEdit = true; this.selectedFile = null; this.dialogVisible = true; }
-  onFileSelect(e: Event) { const i = e.target as HTMLInputElement; if (i.files?.length) this.selectedFile = i.files[0]; }
+  openNew() { this.form = this.emptyForm(); this.isEdit = false; this.selectedFile = null; this.previewUrl = null; this.dialogVisible = true; }
+  editItem(item: any) { this.form = { ...item }; this.isEdit = true; this.selectedFile = null; this.previewUrl = item.img || null; this.dialogVisible = true; }
+  onFileSelect(e: Event) { const i = e.target as HTMLInputElement; if (i.files?.length) { this.selectedFile = i.files[0]; const r = new FileReader(); r.onload = () => this.previewUrl = r.result as string; r.readAsDataURL(this.selectedFile); } }
   async save() {
     if (!this.form.titulo) { this.msg.add({ severity: 'warn', summary: 'Atención', detail: 'Título obligatorio' }); return; }
     this.saving.set(true);

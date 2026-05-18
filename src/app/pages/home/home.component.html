@@ -50,33 +50,190 @@
   </div>
 </section>
 
-<!-- ===== SOBRE EL PROGRAMA ===== -->
+<!-- ===== DENOMINACIÓN DEL PROGRAMA ===== -->
 @if (denominacion(); as d) {
-<section class="section about-section">
+<section class="section denom-section">
   <div class="container">
-    <div class="about-grid">
-      <div class="about-content">
-        <div class="section-title" style="text-align:left"><h2>Sobre el Programa</h2></div>
-        @if(d.mision){<div class="about-card"><div class="about-card-icon"><i class="fas fa-bullseye"></i></div><div><h4>Misión</h4><p>{{d.mision}}</p></div></div>}
-        @if(d.vision){<div class="about-card"><div class="about-card-icon"><i class="fas fa-eye"></i></div><div><h4>Visión</h4><p>{{d.vision}}</p></div></div>}
-        @if(d.objetivo){<div class="about-card"><div class="about-card-icon"><i class="fas fa-flag"></i></div><div><h4>Objetivo</h4><p>{{d.objetivo}}</p></div></div>}
+    <div class="section-title">
+      <h2><i class="fas fa-book-open denom-title-icon"></i> Denominación del Programa</h2>
+      <p>Información institucional del Doctorado en Ciencias de la Salud</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="denom-tabs-wrap">
+      <div class="denom-tabs">
+        <button class="denom-tab" [class.active]="denomTab===0" (click)="denomTab=0">
+          <i class="fas fa-list"></i> Programa
+        </button>
+        <button class="denom-tab" [class.active]="denomTab===1" (click)="denomTab=1">
+          <i class="fas fa-flag"></i> Misión y Visión
+        </button>
+        <button class="denom-tab" [class.active]="denomTab===2" (click)="denomTab=2">
+          <i class="fas fa-bullseye"></i> Propósito
+        </button>
       </div>
-      <div class="about-info-panel">
-        <div class="info-panel-card">
-          <h3><i class="fas fa-clipboard-list"></i> Información</h3>
-          <ul class="info-list">
-            @if(d.titulo){<li><span class="info-label">Título</span><span class="info-value">{{d.titulo}}</span></li>}
-            @if(d.creditos){<li><span class="info-label">Créditos</span><span class="info-value">{{d.creditos}}</span></li>}
-            @if(d.duracion){<li><span class="info-label">Duración</span><span class="info-value">{{d.duracion}}</span></li>}
-            @if(d.costo){<li><span class="info-label">Costo</span><span class="info-value">{{d.costo}}</span></li>}
-            @if(d.snies){<li><span class="info-label">SNIES</span><span class="info-value">{{d.snies}}</span></li>}
+    </div>
+    <!-- TAB 0: Programa — Cards Grid -->
+    @if (denomTab === 0) {
+    <div class="denom-panel animate-tab">
+      <div class="di-grid">
+        @if(d.nombrePrograma){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-university"></i> Nombre del programa</span>
+          <span class="di-value">{{d.nombrePrograma}}</span>
+        </div>}
+        @if(d.tituloOtorgar){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-certificate"></i> Título a otorgar</span>
+          <span class="di-value">{{d.tituloOtorgar}}</span>
+        </div>}
+        @if(d.registroCalificado){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-file-alt"></i> Registro Calificado</span>
+          @if(d.urlRegistroCalificado){
+            <a [href]="d.urlRegistroCalificado" target="_blank" rel="noopener" class="di-link">{{d.registroCalificado}} <i class="fas fa-external-link-alt"></i></a>
+          } @else {
+            <span class="di-value">{{d.registroCalificado}}</span>
+          }
+        </div>}
+        @if(d.renovacionRegistro){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-sync-alt"></i> Renovación Registro Calificado</span>
+          @if(d.urlRenovacionRegistro){
+            <a [href]="d.urlRenovacionRegistro" target="_blank" rel="noopener" class="di-link">{{d.renovacionRegistro}} <i class="fas fa-external-link-alt"></i></a>
+          } @else {
+            <span class="di-value">{{d.renovacionRegistro}}</span>
+          }
+        </div>}
+        @if(d.modalidad){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-chalkboard"></i> Modalidad</span>
+          <span class="di-value"><span class="badge-modal">{{d.modalidad}}</span></span>
+        </div>}
+        @if(d.periodicidadAdmision){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-calendar-alt"></i> Periodicidad de admisión</span>
+          <span class="di-value">{{d.periodicidadAdmision}}</span>
+        </div>}
+        @if(d.numeroCreditos){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-layer-group"></i> Número de créditos</span>
+          <span class="di-value di-highlight">{{d.numeroCreditos}}</span>
+        </div>}
+        @if(d.duracion){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-hourglass-half"></i> Duración</span>
+          <span class="di-value">{{d.duracion}}</span>
+        </div>}
+        @if(d.costoMatricula){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-money-bill-wave"></i> Costo de matrícula</span>
+          @if(d.urlCostoMatricula){
+            <a [href]="d.urlCostoMatricula" target="_blank" rel="noopener" class="di-link">{{d.costoMatricula}} <i class="fas fa-external-link-alt"></i></a>
+          } @else {
+            <span class="di-value">{{d.costoMatricula}}</span>
+          }
+        </div>}
+        @if(d.cupoPorCorte){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-users"></i> Cupo por corte</span>
+          <span class="di-value">{{d.cupoPorCorte}}</span>
+        </div>}
+        @if(d.snies){
+        <div class="di-card">
+          <span class="di-label"><i class="fas fa-hashtag"></i> SNIES</span>
+          @if(d.urlSnies){
+            <a [href]="d.urlSnies" target="_blank" rel="noopener" class="di-link"><code class="snies-code">{{d.snies}}</code> <i class="fas fa-external-link-alt"></i></a>
+          } @else {
+            <span class="di-value"><code class="snies-code">{{d.snies}}</code></span>
+          }
+        </div>}
+      </div>
+    </div>
+    }
+
+    <!-- TAB 1: Misión y Visión — Cards lado a lado -->
+    @if (denomTab === 1) {
+    <div class="denom-panel animate-tab">
+      <div class="mv-cards-grid">
+        @if(d.mision){
+        <div class="mv-card-home mision-card-home">
+          <div class="mv-card-header-home">
+            <div class="mv-icon-home"><i class="fas fa-bullseye"></i></div>
+            <h3>Misión</h3>
+          </div>
+          <p>{{d.mision}}</p>
+        </div>}
+        @if(d.vision){
+        <div class="mv-card-home vision-card-home">
+          <div class="mv-card-header-home">
+            <div class="mv-icon-home mv-icon-vision-home"><i class="fas fa-eye"></i></div>
+            <h3>Visión</h3>
+          </div>
+          <p>{{d.vision}}</p>
+        </div>}
+      </div>
+    </div>
+    }
+
+    <!-- TAB 2: Propósito — Card + listas -->
+    @if (denomTab === 2) {
+    <div class="denom-panel animate-tab">
+      @if(d.proposito){
+      <div class="proposito-text"><p>{{d.proposito}}</p></div>
+      }
+      <div class="proposito-lists">
+        @if(d.necesidadesPais){
+        <div class="prop-list-card">
+          <h4><i class="fas fa-map-marker-alt"></i> Necesidades del País y la Región Surcolombiana priorizadas para el Programa</h4>
+          <ul>
+            @for(item of splitLines(d.necesidadesPais); track item){ <li>{{item}}</li> }
           </ul>
-          <a routerLink="/plan-de-estudios" class="btn-primary-usco" style="margin-top:1.5rem;width:100%;justify-content:center"><i class="fas fa-arrow-right"></i> Ver Plan</a>
+        </div>}
+        @if(d.areasAcademicas){
+        <div class="prop-list-card">
+          <h4><i class="fas fa-flask"></i> Áreas Académicas del Doctorado</h4>
+          <ul>
+            @for(item of splitLines(d.areasAcademicas); track item){ <li>{{item}}</li> }
+          </ul>
+        </div>}
+      </div>
+    </div>
+    }
+
+  </div>
+</section>
+}
+
+<!-- ===== SOBRE EL PROGRAMA (legacy, si no hay denominacion detallada) ===== -->
+@if (denominacion(); as d) {
+  @if(!d.nombrePrograma && (d.mision || d.vision || d.objetivo)) {
+  <section class="section about-section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-content">
+          <div class="section-title" style="text-align:left"><h2>Sobre el Programa</h2></div>
+          @if(d.mision){<div class="about-card"><div class="about-card-icon"><i class="fas fa-bullseye"></i></div><div><h4>Misión</h4><p>{{d.mision}}</p></div></div>}
+          @if(d.vision){<div class="about-card"><div class="about-card-icon"><i class="fas fa-eye"></i></div><div><h4>Visión</h4><p>{{d.vision}}</p></div></div>}
+          @if(d.objetivo){<div class="about-card"><div class="about-card-icon"><i class="fas fa-flag"></i></div><div><h4>Objetivo</h4><p>{{d.objetivo}}</p></div></div>}
+        </div>
+        <div class="about-info-panel">
+          <div class="info-panel-card">
+            <h3><i class="fas fa-clipboard-list"></i> Información</h3>
+            <ul class="info-list">
+              @if(d.titulo){<li><span class="info-label">Título</span><span class="info-value">{{d.titulo}}</span></li>}
+              @if(d.creditos){<li><span class="info-label">Créditos</span><span class="info-value">{{d.creditos}}</span></li>}
+              @if(d.duracion){<li><span class="info-label">Duración</span><span class="info-value">{{d.duracion}}</span></li>}
+              @if(d.costo){<li><span class="info-label">Costo</span><span class="info-value">{{d.costo}}</span></li>}
+              @if(d.snies){<li><span class="info-label">SNIES</span><span class="info-value">{{d.snies}}</span></li>}
+            </ul>
+            <a routerLink="/plan-de-estudios" class="btn-primary-usco" style="margin-top:1.5rem;width:100%;justify-content:center"><i class="fas fa-arrow-right"></i> Ver Plan</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+  }
 }
 
 <!-- ===== DOCENTES ===== -->

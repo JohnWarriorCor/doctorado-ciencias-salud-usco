@@ -38,25 +38,41 @@ import { Egresado } from '../../../core/models';
           <div class="form-row"><div class="form-group"><label>Correo</label><input pInputText [(ngModel)]="form.correo" class="w-full"/></div><div class="form-group"><label>Código</label><input pInputText [(ngModel)]="form.codigo" class="w-full" type="number"/></div></div>
           <div class="form-row"><div class="form-group"><label>CvLAC</label><input pInputText [(ngModel)]="form.cvlac" class="w-full"/></div><div class="form-group"><label>ORCID</label><input pInputText [(ngModel)]="form.orcid" class="w-full"/></div></div>
           <div class="form-group"><label>URL Foto</label><input pInputText [(ngModel)]="form.foto" class="w-full"/></div>
-          <div class="form-group"><label>Foto (archivo)</label><input type="file" accept="image/*" (change)="onFileSelect($event)" class="w-full"/></div>
+          <div class="form-group">
+            <label>Foto (archivo)</label>
+            <div class="file-drop-zone" (click)="fileInput.click()" [class.has-file]="!!previewUrl">
+              <input #fileInput type="file" accept="image/*" (change)="onFileSelect($event)" style="display:none"/>
+              @if(previewUrl){
+                <img [src]="previewUrl" class="img-prev-circle" alt="Vista previa"/>
+                <span class="file-drop-hint" style="margin-top:.4rem">{{selectedFile?.name || 'Foto actual · clic para cambiar'}}</span>
+              } @else {
+                <div class="file-drop-content">
+                  <i class="fas fa-user-graduate"></i>
+                  <span class="file-drop-text">Haz clic para seleccionar foto</span>
+                  <span class="file-drop-hint">PNG, JPG, WEBP</span>
+                </div>
+              }
+            </div>
+          </div>
         </div>
         <ng-template #footer><p-button label="Cancelar" [text]="true" (onClick)="dialogVisible=false"/><p-button label="Guardar" icon="fas fa-save" (onClick)="save()" [loading]="saving()"/></ng-template>
       </p-dialog>
       <p-confirmDialog/><p-toast/>
     </div>
   `,
-  styles: `.admin-hero{background:linear-gradient(135deg,#1e262b,#2e7d32);padding:3.5rem 2rem 2rem;text-align:center}.admin-hero h1{color:white;font-size:1.6rem;display:flex;align-items:center;justify-content:center;gap:.6rem}.admin-container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}.btn-back{display:inline-flex;align-items:center;gap:.4rem;color:var(--usco-vinotinto);font-weight:600;font-size:.9rem}.form-grid{display:flex;flex-direction:column;gap:1rem}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.form-group{display:flex;flex-direction:column;gap:.35rem}.form-group label{font-size:.85rem;font-weight:600;color:var(--surface-600)}.w-full{width:100%}`,
+  styles: `.admin-hero{background:linear-gradient(135deg,#1e262b,#2e7d32);padding:3.5rem 2rem 2rem;text-align:center}.admin-hero h1{color:white;font-size:1.6rem;display:flex;align-items:center;justify-content:center;gap:.6rem}.admin-container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}.btn-back{display:inline-flex;align-items:center;gap:.4rem;color:var(--usco-vinotinto);font-weight:600;font-size:.9rem}.form-grid{display:flex;flex-direction:column;gap:1rem}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.form-group{display:flex;flex-direction:column;gap:.35rem}.form-group label{font-size:.85rem;font-weight:600;color:var(--surface-600)}.w-full{width:100%}.file-drop-zone{border:2px dashed var(--surface-300);border-radius:12px;padding:1.25rem;cursor:pointer;transition:all .25s;background:var(--surface-50);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px}.file-drop-zone:hover,.file-drop-zone.has-file{border-color:var(--usco-vinotinto);background:#fef2f3}.file-drop-zone.has-file{border-style:solid}.file-drop-content{display:flex;flex-direction:column;align-items:center;gap:.35rem}.file-drop-content i{font-size:2rem;color:var(--usco-vinotinto);opacity:.65}.file-drop-text{font-size:.87rem;font-weight:600;color:var(--surface-700)}.file-drop-hint{font-size:.75rem;color:var(--surface-400)}.img-prev-circle{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid var(--usco-vinotinto)}`,
+
 })
 export class AdminEgresadosComponent implements OnInit {
   private fs = inject(FirestoreService); private cloudinary = inject(CloudinaryService); private confirm = inject(ConfirmationService); private msg = inject(MessageService);
   private cdr = inject(ChangeDetectorRef);
   items = signal<Egresado[]>([]); dialogVisible = false; isEdit = false; saving = signal(false);
-  form: Egresado = this.emptyForm(); selectedFile: File | null = null;
+  form: Egresado = this.emptyForm(); selectedFile: File | null = null; previewUrl: string | null = null;
   ngOnInit() { this.fs.getCollection<Egresado>('egresados').subscribe(d => this.items.set(d)); }
   emptyForm(): Egresado { return { foto: '', codigo: 0, nombre: '', sintesis: '', fieldArray: [], fieldArrayArticulos: [], correo: '', fecha: '', cvlac: '', orcid: '', estado: 1 }; }
-  openNew() { this.form = this.emptyForm(); this.isEdit = false; this.selectedFile = null; this.dialogVisible = true; }
-  editItem(item: any) { this.form = { ...item }; this.isEdit = true; this.selectedFile = null; this.dialogVisible = true; }
-  onFileSelect(e: Event) { const i = e.target as HTMLInputElement; if (i.files?.length) this.selectedFile = i.files[0]; }
+  openNew() { this.form = this.emptyForm(); this.isEdit = false; this.selectedFile = null; this.previewUrl = null; this.dialogVisible = true; }
+  editItem(item: any) { this.form = { ...item }; this.isEdit = true; this.selectedFile = null; this.previewUrl = item.foto || null; this.dialogVisible = true; }
+  onFileSelect(e: Event) { const i = e.target as HTMLInputElement; if (i.files?.length) { this.selectedFile = i.files[0]; const r = new FileReader(); r.onload = () => this.previewUrl = r.result as string; r.readAsDataURL(this.selectedFile); } }
   async save() {
     if (!this.form.nombre) { this.msg.add({ severity: 'warn', summary: 'Atención', detail: 'Nombre obligatorio' }); return; }
     this.saving.set(true);

@@ -23,6 +23,9 @@ export class HomeComponent implements OnInit {
   eventos      = signal<Evento[]>([]);
   eventosUsco  = signal<Evento[]>([]);
 
+  /** Tab activo de la sección Denominación: 0=Programa, 1=Misión/Visión, 2=Propósito */
+  denomTab = 0;
+
   responsiveOptions = [
     { breakpoint: '1024px', numVisible: 1, numScroll: 1 },
     { breakpoint: '768px',  numVisible: 1, numScroll: 1 },
@@ -78,6 +81,12 @@ export class HomeComponent implements OnInit {
     });
 
     this.animateCounters();
+  }
+
+  /** Convierte texto con saltos de línea en arreglo de ítems no vacíos */
+  splitLines(text: string | undefined): string[] {
+    if (!text) return [];
+    return text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
   }
 
   private animateCounters(): void {

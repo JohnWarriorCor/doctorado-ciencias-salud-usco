@@ -1,12 +1,32 @@
 export interface Denominacion {
-  titulo?: string;
-  creditos?: string;
+  // Pestaña: Programa
+  nombrePrograma?: string;
+  tituloOtorgar?: string;
+  registroCalificado?: string;
+  urlRegistroCalificado?: string;
+  renovacionRegistro?: string;
+  urlRenovacionRegistro?: string;
+  modalidad?: string;
+  periodicidadAdmision?: string;
+  numeroCreditos?: string;
   duracion?: string;
-  costo?: string;
+  costoMatricula?: string;
+  urlCostoMatricula?: string;
+  cupoPorCorte?: string;
+  snies?: string;
+  urlSnies?: string;
+  // Pestaña: Misión y Visión
   mision?: string;
   vision?: string;
+  // Pestaña: Propósito
+  proposito?: string;
+  necesidadesPais?: string;    // separadas por salto de línea
+  areasAcademicas?: string;    // separadas por salto de línea
+  // Campos heredados (compatibilidad con home)
+  titulo?: string;
+  creditos?: string;
+  costo?: string;
   objetivo?: string;
-  snies?: string;
   resolucion?: string;
   acreditacion?: string;
   key?: string;
@@ -27,12 +47,17 @@ export interface Docente {
   foto: string;
   nombre: string;
   sintesis: string;
-  fieldArray: any[];
-  fieldArrayArticulos: any[];
+  fieldArray: any[];           // logros académicos
+  fieldArrayArticulos: any[]; // artículos
   correo: string;
   fecha: string;
   cvlac: string;
   orcid: string;
+  cargo?: string;             // Ej: Profesor Titular
+  dedicacion?: string;        // Ej: Tiempo Completo
+  grupoInvestigacion?: string;
+  lineasInvestigacion?: string; // separadas por salto de línea
+  transparencia?: string;     // URL ley de transparencia
   key?: string;
 }
 

@@ -58,6 +58,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'docentes/:id',
+    loadComponent: () =>
+      import('./pages/docentes/docente-perfil/docente-perfil.component').then(
+        (m) => m.DocentePerfilComponent
+      ),
+  },
+  {
     path: 'articulos-docentes',
     loadComponent: () =>
       import('./pages/docentes/articulos-docentes/articulos-docentes.component').then(
@@ -180,6 +187,12 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./pages/admin/admin-biblioteca/admin-biblioteca.component').then((m) => m.AdminBibliotecaComponent),
+  },
+  {
+    path: 'admin/denominacion',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/admin/admin-denominacion/admin-denominacion.component').then((m) => m.AdminDenominacionComponent),
   },
   { path: '**', redirectTo: 'inicio' },
 ];

@@ -44,17 +44,41 @@ import { Docente } from '../../../core/models';
       <p-dialog [(visible)]="dialogVisible" [header]="isEdit ? 'Editar Docente' : 'Nuevo Docente'" [modal]="true" [style]="{width:'600px'}" [draggable]="false">
         <div class="form-grid">
           <div class="form-group"><label>Nombre *</label><input pInputText [(ngModel)]="form.nombre" class="w-full"/></div>
-          <div class="form-group"><label>Síntesis</label><textarea pTextarea [(ngModel)]="form.sintesis" rows="4" class="w-full"></textarea></div>
+          <div class="form-row">
+            <div class="form-group"><label>Cargo</label><input pInputText [(ngModel)]="form.cargo" placeholder="Ej: Profesor Titular" class="w-full"/></div>
+            <div class="form-group"><label>Dedicación</label><input pInputText [(ngModel)]="form.dedicacion" placeholder="Ej: Tiempo Completo" class="w-full"/></div>
+          </div>
+          <div class="form-group"><label>Grupo de Investigación</label><input pInputText [(ngModel)]="form.grupoInvestigacion" placeholder="Ej: Grupo Cuidar - Categoría A" class="w-full"/></div>
+          <div class="form-group"><label>Síntesis Profesional</label><textarea pTextarea [(ngModel)]="form.sintesis" rows="4" class="w-full"></textarea></div>
+          <div class="form-group">
+            <label>Líneas de Investigación <span style="font-weight:400;color:var(--surface-400);font-size:.78rem">(una por línea)</span></label>
+            <textarea pTextarea [(ngModel)]="form.lineasInvestigacion" rows="3" class="w-full" placeholder="Salud Comunitaria&#10;Salud de Colectivos&#10;Epidemiología"></textarea>
+          </div>
           <div class="form-row">
             <div class="form-group"><label>Correo</label><input pInputText [(ngModel)]="form.correo" class="w-full"/></div>
             <div class="form-group"><label>Fecha</label><input pInputText [(ngModel)]="form.fecha" class="w-full"/></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label>CvLAC</label><input pInputText [(ngModel)]="form.cvlac" class="w-full"/></div>
-            <div class="form-group"><label>ORCID</label><input pInputText [(ngModel)]="form.orcid" class="w-full"/></div>
+            <div class="form-group"><label>CvLAC</label><input pInputText [(ngModel)]="form.cvlac" placeholder="https://..." class="w-full"/></div>
+            <div class="form-group"><label>ORCID</label><input pInputText [(ngModel)]="form.orcid" placeholder="https://orcid.org/..." class="w-full"/></div>
           </div>
-          <div class="form-group"><label>URL Foto</label><input pInputText [(ngModel)]="form.foto" class="w-full"/></div>
-          <div class="form-group"><label>Foto (archivo)</label><input type="file" accept="image/*" (change)="onFileSelect($event)" class="w-full"/></div>
+          <div class="form-group"><label>URL Ley de Transparencia</label><input pInputText [(ngModel)]="form.transparencia" placeholder="https://..." class="w-full"/></div>
+          <div class="form-group">
+            <label>Foto (archivo)</label>
+            <div class="file-drop-zone" (click)="fileInput.click()" [class.has-file]="!!previewUrl">
+              <input #fileInput type="file" accept="image/*" (change)="onFileSelect($event)" style="display:none"/>
+              @if(previewUrl){
+                <img [src]="previewUrl" class="img-prev-circle" alt="Vista previa"/>
+                <span class="file-drop-hint" style="margin-top:.4rem">{{selectedFile?.name || 'Foto actual · clic para cambiar'}}</span>
+              } @else {
+                <div class="file-drop-content">
+                  <i class="fas fa-user-circle"></i>
+                  <span class="file-drop-text">Haz clic para seleccionar foto</span>
+                  <span class="file-drop-hint">PNG, JPG, WEBP</span>
+                </div>
+              }
+            </div>
+          </div>
         </div>
         <ng-template #footer>
           <p-button label="Cancelar" icon="fas fa-times" [text]="true" (onClick)="dialogVisible=false"/>
@@ -75,6 +99,14 @@ import { Docente } from '../../../core/models';
     .form-group{display:flex;flex-direction:column;gap:.35rem}
     .form-group label{font-size:.85rem;font-weight:600;color:var(--surface-600)}
     .w-full{width:100%}
+    .file-drop-zone{border:2px dashed var(--surface-300);border-radius:12px;padding:1.25rem;cursor:pointer;transition:all .25s;background:var(--surface-50);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px}
+    .file-drop-zone:hover,.file-drop-zone.has-file{border-color:var(--usco-vinotinto);background:#fef2f3}
+    .file-drop-zone.has-file{border-style:solid}
+    .file-drop-content{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+    .file-drop-content i{font-size:2rem;color:var(--usco-vinotinto);opacity:.65}
+    .file-drop-text{font-size:.87rem;font-weight:600;color:var(--surface-700)}
+    .file-drop-hint{font-size:.75rem;color:var(--surface-400)}
+    .img-prev-circle{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid var(--usco-vinotinto)}
   `,
 })
 export class AdminDocentesComponent implements OnInit {
@@ -87,12 +119,13 @@ export class AdminDocentesComponent implements OnInit {
   dialogVisible = false; isEdit = false; saving = signal(false);
   form: Docente = this.emptyForm();
   selectedFile: File | null = null;
+  previewUrl: string | null = null;
 
   ngOnInit() { this.fs.getCollection<Docente>('docentes').subscribe(d => this.items.set(d)); }
-  emptyForm(): Docente { return { foto: '', nombre: '', sintesis: '', fieldArray: [], fieldArrayArticulos: [], correo: '', fecha: '', cvlac: '', orcid: '' }; }
-  openNew() { this.form = this.emptyForm(); this.isEdit = false; this.selectedFile = null; this.dialogVisible = true; }
-  editItem(item: any) { this.form = { ...item }; this.isEdit = true; this.selectedFile = null; this.dialogVisible = true; }
-  onFileSelect(e: Event) { const i = e.target as HTMLInputElement; if (i.files?.length) this.selectedFile = i.files[0]; }
+  emptyForm(): Docente { return { foto: '', nombre: '', sintesis: '', fieldArray: [], fieldArrayArticulos: [], correo: '', fecha: '', cvlac: '', orcid: '', cargo: '', dedicacion: '', grupoInvestigacion: '', lineasInvestigacion: '', transparencia: '' }; }
+  openNew() { this.form = this.emptyForm(); this.isEdit = false; this.selectedFile = null; this.previewUrl = null; this.dialogVisible = true; }
+  editItem(item: any) { this.form = { ...item }; this.isEdit = true; this.selectedFile = null; this.previewUrl = item.foto || null; this.dialogVisible = true; }
+  onFileSelect(e: Event) { const i = e.target as HTMLInputElement; if (i.files?.length) { this.selectedFile = i.files[0]; const r = new FileReader(); r.onload = () => this.previewUrl = r.result as string; r.readAsDataURL(this.selectedFile); } }
 
   async save() {
     if (!this.form.nombre) { this.msg.add({ severity: 'warn', summary: 'Atención', detail: 'Nombre obligatorio' }); return; }
