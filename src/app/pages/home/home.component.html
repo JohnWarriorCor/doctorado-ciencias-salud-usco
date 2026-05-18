@@ -1,3 +1,4 @@
+<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -11,11 +12,13 @@
   </div>
 </section>
 
+<!-- ===== CARRUSEL DE NOTICIAS ===== -->
 @if (slides().length) {
 <section class="section carousel-section">
   <div class="container">
     <div class="section-title"><h2>Noticias y Novedades</h2><p>Últimas noticias del programa</p></div>
-    <p-carousel [value]="slides()" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="5000" [responsiveOptions]="responsiveOptions" styleClass="carousel-usco">
+    <p-carousel [value]="slides()" [numVisible]="1" [numScroll]="1" [circular]="true"
+                [autoplayInterval]="5000" [responsiveOptions]="responsiveOptions" styleClass="carousel-usco">
       <ng-template #item let-slide>
         <div class="carousel-slide">
           <img [src]="slide.urlImg" [alt]="slide.titulo" class="carousel-img"/>
@@ -32,6 +35,7 @@
 </section>
 }
 
+<!-- ===== CONTADORES ===== -->
 <section class="counters-section">
   <div class="container">
     <div class="counters-grid">
@@ -46,6 +50,7 @@
   </div>
 </section>
 
+<!-- ===== SOBRE EL PROGRAMA ===== -->
 @if (denominacion(); as d) {
 <section class="section about-section">
   <div class="container">
@@ -74,19 +79,21 @@
 </section>
 }
 
+<!-- ===== DOCENTES ===== -->
 @if (docentes().length) {
 <section class="section docentes-section bg-gradient-subtle">
   <div class="container">
     <div class="section-title"><h2>Nuestros Profesores</h2><p>Equipo docente de alta calificación</p></div>
-    <p-carousel [value]="docentes()" [numVisible]="4" [numScroll]="1" [circular]="true" [autoplayInterval]="4000" [responsiveOptions]="docenteResponsive" styleClass="docentes-carousel">
+    <p-carousel [value]="docentes()" [numVisible]="4" [numScroll]="1" [circular]="true"
+                [autoplayInterval]="4000" [responsiveOptions]="docenteResponsive" styleClass="docentes-carousel">
       <ng-template #item let-doc>
-        <div class="docente-card">
-          <div class="docente-avatar">
-            @if(doc.foto){<img [src]="doc.foto" [alt]="doc.nombre"/>}@else{<div class="docente-avatar-placeholder"><i class="fas fa-user"></i></div>}
+        <div class="persona-card">
+          <div class="persona-avatar">
+            @if(doc.foto){<img [src]="doc.foto" [alt]="doc.nombre"/>}@else{<div class="persona-avatar-placeholder"><i class="fas fa-user"></i></div>}
           </div>
-          <h4 class="docente-name">{{doc.nombre}}</h4>
-          <p class="docente-desc">{{doc.sintesis.slice(0,100)}}</p>
-          <div class="docente-links">
+          <h4 class="persona-name">{{doc.nombre}}</h4>
+          <p class="persona-desc">{{doc.sintesis?.slice(0,100)}}</p>
+          <div class="persona-links">
             @if(doc.correo){<a [href]="'mailto:'+doc.correo" title="Correo"><i class="fas fa-envelope"></i></a>}
             @if(doc.cvlac){<a [href]="doc.cvlac" target="_blank" title="CvLAC"><i class="fas fa-file-alt"></i></a>}
             @if(doc.orcid){<a [href]="doc.orcid" target="_blank" title="ORCID"><i class="fab fa-orcid"></i></a>}
@@ -94,21 +101,88 @@
         </div>
       </ng-template>
     </p-carousel>
-    <div style="text-align:center;margin-top:2rem"><a routerLink="/docentes" class="btn-outline-usco"><i class="fas fa-users"></i> Ver todos</a></div>
+    <div style="text-align:center;margin-top:2rem"><a routerLink="/docentes" class="btn-outline-usco"><i class="fas fa-users"></i> Ver todos los docentes</a></div>
   </div>
 </section>
 }
 
+<!-- ===== ESTUDIANTES ===== -->
+@if (estudiantes().length) {
+<section class="section personas-section estudiantes-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Estudiantes</h2>
+      <p>Investigadores en formación del Doctorado en Ciencias de la Salud</p>
+    </div>
+
+    <p-carousel [value]="estudiantes()" [numVisible]="4" [numScroll]="1" [circular]="true"
+                [autoplayInterval]="4500" [responsiveOptions]="personaResponsive" styleClass="personas-carousel">
+      <ng-template #item let-est>
+        <div class="persona-card">
+          <div class="persona-avatar">
+            @if(est.foto){<img [src]="est.foto" [alt]="est.nombre"/>}
+            @else{<div class="persona-avatar-placeholder"><i class="fas fa-user-graduate"></i></div>}
+          </div>
+          <h4 class="persona-name">{{est.nombre}}</h4>
+          @if(est.codigo){<span class="persona-code">Cód. {{est.codigo}}</span>}
+          <p class="persona-desc">{{est.sintesis?.slice(0,90)}}</p>
+          <div class="persona-links">
+            @if(est.correo){<a [href]="'mailto:'+est.correo" title="Correo"><i class="fas fa-envelope"></i></a>}
+            @if(est.cvlac){<a [href]="est.cvlac" target="_blank" title="CvLAC"><i class="fas fa-file-alt"></i></a>}
+            @if(est.orcid){<a [href]="est.orcid" target="_blank" title="ORCID"><i class="fab fa-orcid"></i></a>}
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+    <div style="text-align:center;margin-top:2rem"><a routerLink="/estudiantes" class="btn-outline-usco"><i class="fas fa-users"></i> Ver todos los estudiantes</a></div>
+  </div>
+</section>
+}
+
+<!-- ===== EGRESADOS ===== -->
+@if (egresados().length) {
+<section class="section personas-section egresados-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Nuestros Egresados</h2>
+      <p>Doctores que transforman la salud de Colombia y Latinoamérica</p>
+    </div>
+
+    <p-carousel [value]="egresados()" [numVisible]="4" [numScroll]="1" [circular]="true"
+                [autoplayInterval]="5000" [responsiveOptions]="personaResponsive" styleClass="personas-carousel">
+      <ng-template #item let-egr>
+        <div class="persona-card">
+          <div class="persona-avatar">
+            @if(egr.foto){<img [src]="egr.foto" [alt]="egr.nombre"/>}
+            @else{<div class="persona-avatar-placeholder"><i class="fas fa-user-tie"></i></div>}
+          </div>
+          <h4 class="persona-name">{{egr.nombre}}</h4>
+          <p class="persona-desc">{{egr.sintesis?.slice(0,90)}}</p>
+          <div class="persona-links">
+            @if(egr.correo){<a [href]="'mailto:'+egr.correo" title="Correo"><i class="fas fa-envelope"></i></a>}
+            @if(egr.cvlac){<a [href]="egr.cvlac" target="_blank" title="CvLAC"><i class="fas fa-file-alt"></i></a>}
+            @if(egr.orcid){<a [href]="egr.orcid" target="_blank" title="ORCID"><i class="fab fa-orcid"></i></a>}
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+    <div style="text-align:center;margin-top:2rem"><a routerLink="/egresados" class="btn-outline-usco"><i class="fas fa-graduation-cap"></i> Ver todos los egresados</a></div>
+  </div>
+</section>
+}
+
+<!-- ===== EVENTOS DEL PROGRAMA ===== -->
 @if (eventos().length) {
 <section class="section events-section">
   <div class="container">
-    <div class="section-title"><h2>Actividades Recientes</h2></div>
+    <div class="section-title"><h2>Actividades del Programa</h2><p>Eventos académicos e investigativos recientes</p></div>
     <div class="events-grid">
       @for (ev of eventos(); track ev.key) {
       <div class="event-card card-usco">
         @if(ev.img){<div class="event-img-wrapper"><img [src]="ev.img" [alt]="ev.titulo" class="event-img"/></div>}
+        @else{<div class="event-img-placeholder"><i class="fas fa-flask"></i></div>}
         <div class="event-body">
-          <p-tag [value]="ev.fechaEvento" icon="far fa-calendar-alt" severity="secondary"/>
+          <span class="event-date-badge"><i class="far fa-calendar-alt"></i> {{ev.fechaEvento || 'Próximamente'}}</span>
           <h4 class="event-title">{{ev.titulo}}</h4>
           <p class="event-desc">{{ev.resenia.slice(0,120)}}</p>
           @if(ev.url){<a [href]="ev.url" target="_blank" class="event-link">Leer más <i class="fas fa-arrow-right"></i></a>}
@@ -116,11 +190,36 @@
       </div>
       }
     </div>
-    <div style="text-align:center;margin-top:2.5rem"><a routerLink="/agenda-programa" class="btn-outline-usco"><i class="far fa-newspaper"></i> Ver todas</a></div>
+    <div style="text-align:center;margin-top:2.5rem"><a routerLink="/agenda-programa" class="btn-outline-usco"><i class="far fa-newspaper"></i> Ver todas las actividades</a></div>
   </div>
 </section>
 }
 
+<!-- ===== EVENTOS INSTITUCIONALES USCO ===== -->
+@if (eventosUsco().length) {
+<section class="section events-section usco-events-section">
+  <div class="container">
+    <div class="section-title"><h2>Eventos Institucionales</h2><p>Actividades de la Universidad Surcolombiana</p></div>
+    <div class="events-grid">
+      @for (ev of eventosUsco(); track ev.key) {
+      <div class="event-card card-usco usco-event-card">
+        @if(ev.img){<div class="event-img-wrapper"><img [src]="ev.img" [alt]="ev.titulo" class="event-img"/></div>}
+        @else{<div class="event-img-placeholder usco-placeholder"><i class="fas fa-university"></i></div>}
+        <div class="event-body">
+          <span class="event-date-badge"><i class="far fa-calendar-alt"></i> {{ev.fechaEvento || 'Próximamente'}}</span>
+          <h4 class="event-title">{{ev.titulo}}</h4>
+          <p class="event-desc">{{ev.resenia.slice(0,120)}}</p>
+          @if(ev.url){<a [href]="ev.url" target="_blank" class="event-link usco-link">Leer más <i class="fas fa-arrow-right"></i></a>}
+        </div>
+      </div>
+      }
+    </div>
+    <div style="text-align:center;margin-top:2.5rem"><a routerLink="/agenda-institucional" class="btn-outline-usco"><i class="fas fa-university"></i> Ver todos los eventos</a></div>
+  </div>
+</section>
+}
+
+<!-- ===== CTA ===== -->
 <section class="cta-section">
   <div class="container">
     <div class="cta-content">
